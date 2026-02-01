@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/teacher Css/TeacherSignIn.module.css";
 
@@ -10,6 +10,22 @@ export default function TeacherSignIn() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
+   useEffect(()=>{
+       fetch("https://backend.gonakli.com/DirectAccessResources", {
+         credentials: "include",
+       }).then((res) => {
+         if (res.status === 200) {
+         return  navigate("/teacher/dashboard");
+         }
+       });
+      
+      
+    }, []);
+   
+  
+  
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

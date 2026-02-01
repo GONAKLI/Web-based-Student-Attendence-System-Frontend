@@ -1,8 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// Import statement waisa hi rahega, bas 'styles' variable use karenge
 import styles from "../../css/teacher Css/MarkAttendance.module.css";
-import { useEffect } from "react";
 
 export default function MarkAttendance() {
   const navigate = useNavigate();
@@ -13,77 +11,39 @@ export default function MarkAttendance() {
   const cardRef = useRef(null);
   const startXRef = useRef(0);
   const currentXRef = useRef(0);
+  const [studentData, setStudentData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
- const [studentData, setStudentData] = useState([]);
-
-   useEffect(() => {
-      const fetchStudentData = async () => {
-        try {
-          const res = await fetch("https://backend.gonakli.com/teacher/getStudents", {
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      try {
+        const res = await fetch(
+          "https://backend.gonakli.com/teacher/getStudents",
+          {
             credentials: "include",
-          });
-  
-          if (!res.ok) {
-            throw new Error("Failed to fetch students");
-          }
-  
-          const data = await res.json();
-          setStudentData(data);
-        } catch (err) {
-          console.error("Error fetching students:", err);
+          },
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch students");
         }
-      };
-  
-      fetchStudentData();
-    }, []);
 
-  // Demo Students Data
-  const students = [
-    {
-      id: 1,
-      name: "Emma Wilson",
-      rollNumber: "CS-2024-001",
-      class: "Computer Science - 3rd Year",
-      profilePic: "https://i.pravatar.cc/300?img=1",
-      status: null,
-    },
-    {
-      id: 2,
-      name: "Liam Johnson",
-      rollNumber: "CS-2024-002",
-      class: "Computer Science - 3rd Year",
-      profilePic: "https://i.pravatar.cc/300?img=12",
-      status: null,
-    },
-    {
-      id: 3,
-      name: "Sophia Martinez",
-      rollNumber: "CS-2024-003",
-      class: "Computer Science - 3rd Year",
-      profilePic: "https://i.pravatar.cc/300?img=5",
-      status: null,
-    },
-    {
-      id: 4,
-      name: "Noah Anderson",
-      rollNumber: "CS-2024-004",
-      class: "Computer Science - 3rd Year",
-      profilePic: "https://i.pravatar.cc/300?img=13",
-      status: null,
-    },
-    {
-      id: 5,
-      name: "Olivia Brown",
-      rollNumber: "CS-2024-005",
-      class: "Computer Science - 3rd Year",
-      profilePic: "https://i.pravatar.cc/300?img=9",
-      status: null,
-    },
-  ];
+        const data = await res.json();
+        setStudentData(data.students || data); // Handle both response formats
+      } catch (err) {
+        console.error("Error fetching students:", err);
+        alert("Failed to load students. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const currentStudent = students[currentStudentIndex];
-  const isLastStudent = currentStudentIndex === students.length - 1;
-  const allMarked = attendanceRecords.length === students.length;
+    fetchStudentData();
+  }, []);
+
+  // Check if we have students and current student exists
+  const currentStudent = studentData[currentStudentIndex];
+  const allMarked = attendanceRecords.length === studentData.length;
 
   // Touch/Mouse event handlers
   const handleStart = (clientX) => {
@@ -101,8 +61,6 @@ export default function MarkAttendance() {
       const rotation = diff / 20;
       cardRef.current.style.transform = `translateX(${diff}px) rotate(${rotation}deg)`;
 
-      // Add color overlay based on swipe direction
-      // IMPORTANT: classList operations me bhi styles object use karna padega
       if (diff > 50) {
         cardRef.current.classList.add(styles["swipe-right-hint"]);
         cardRef.current.classList.remove(styles["swipe-left-hint"]);
@@ -125,14 +83,12 @@ export default function MarkAttendance() {
     const threshold = 100;
 
     if (Math.abs(diff) > threshold) {
-      // Swipe completed
       if (diff > 0) {
         markAttendance("present");
       } else {
         markAttendance("absent");
       }
     } else {
-      // Reset position
       if (cardRef.current) {
         cardRef.current.style.transform = "";
         cardRef.current.classList.remove(
@@ -147,23 +103,20 @@ export default function MarkAttendance() {
   };
 
   const markAttendance = (status) => {
-    if (isAnimating) return;
+    if (isAnimating || !currentStudent) return;
 
     setIsAnimating(true);
     setSwipeDirection(status === "present" ? "right" : "left");
 
-    // Animate card out
     if (cardRef.current) {
       const direction = status === "present" ? 1 : -1;
-      cardRef.current.style.transform = `translateX(${
-        direction * 1000
-      }px) rotate(${direction * 30}deg)`;
+      cardRef.current.style.transform = `translateX(${direction * 1000}px) rotate(${direction * 30}deg)`;
       cardRef.current.style.opacity = "0";
     }
 
-    // Record attendance
+    // Record attendance with server data structure
     const record = {
-      studentId: currentStudent.id,
+      studentId: currentStudent._id || currentStudent.id,
       name: currentStudent.name,
       rollNumber: currentStudent.rollNumber,
       status: status,
@@ -172,11 +125,10 @@ export default function MarkAttendance() {
     setTimeout(() => {
       setAttendanceRecords((prev) => [...prev, record]);
 
-      if (currentStudentIndex < students.length - 1) {
+      if (currentStudentIndex < studentData.length - 1) {
         setCurrentStudentIndex((prev) => prev + 1);
       }
 
-      // Reset for next card
       if (cardRef.current) {
         cardRef.current.style.transform = "";
         cardRef.current.style.opacity = "1";
@@ -192,31 +144,35 @@ export default function MarkAttendance() {
   };
 
   const handleEdit = (studentId) => {
-    // Remove the record and go back to that student
     const recordIndex = attendanceRecords.findIndex(
       (r) => r.studentId === studentId,
     );
     if (recordIndex !== -1) {
       setAttendanceRecords((prev) => prev.filter((_, i) => i !== recordIndex));
 
-      // Find student index
-      const studentIndex = students.findIndex((s) => s.id === studentId);
+      const studentIndex = studentData.findIndex(
+        (s) => (s._id || s.id) === studentId,
+      );
       setCurrentStudentIndex(studentIndex);
     }
   };
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("https://backend.gonakli.com/mark-attendance", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://backend.gonakli.com/mark-attendance",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            date: new Date().toISOString(),
+            records: attendanceRecords,
+          }),
         },
-        body: JSON.stringify({
-          date: new Date().toISOString(),
-          records: attendanceRecords,
-        }),
-      });
+      );
 
       if (response.ok) {
         alert("Attendance submitted successfully!");
@@ -229,6 +185,52 @@ export default function MarkAttendance() {
       alert("An error occurred. Please try again.");
     }
   };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className={styles["attendance-container"]}>
+        <div className={styles["loading-container"]}>
+          <div className={styles["spinner"]}></div>
+          <p className={styles["loading-text"]}>Loading students...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // No students state
+  if (studentData.length === 0) {
+    return (
+      <div className={styles["attendance-container"]}>
+        <header className={styles["attendance-header"]}>
+          <button
+            className={styles["back-button"]}
+            onClick={() => navigate("/teacher/dashboard")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.28 7.72a.75.75 0 010 1.06l-2.47 2.47H21a.75.75 0 010 1.5H4.81l2.47 2.47a.75.75 0 11-1.06 1.06l-3.75-3.75a.75.75 0 010-1.06l3.75-3.75a.75.75 0 011.06 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Back
+          </button>
+          <div className={styles["header-title"]}>
+            <h1>Mark Attendance</h1>
+          </div>
+        </header>
+        <div className={styles["empty-state"]}>
+          <h3>No Students Found</h3>
+          <p>There are no students to mark attendance for.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles["attendance-container"]}>
@@ -264,15 +266,12 @@ export default function MarkAttendance() {
 
       {/* Main Content */}
       <main className={styles["attendance-main"]}>
-        {!allMarked ? (
+        {!allMarked && currentStudent ? (
           <div className={styles["swipe-section"]}>
             {/* Student Card */}
             <div
               ref={cardRef}
-              // Combine styles correctly for dynamic classes
-              className={`${styles["student-card"]} ${
-                swipeDirection ? styles[swipeDirection] : ""
-              }`}
+              className={`${styles["student-card"]} ${swipeDirection ? styles[swipeDirection] : ""}`}
               onMouseDown={(e) => handleStart(e.clientX)}
               onMouseMove={(e) => handleMove(e.clientX)}
               onMouseUp={handleEnd}
@@ -316,7 +315,11 @@ export default function MarkAttendance() {
 
               <div className={styles["student-profile-pic"]}>
                 <img
-                  src={currentStudent.profilePic}
+                  src={
+                    currentStudent.StudentImage
+                      ? `https://backend.gonakli.com/${currentStudent.StudentImage}`
+                      : `https://ui-avatars.com/api/?name=${encodeURIComponent(currentStudent.name)}&size=300&background=667eea&color=fff&bold=true`
+                  }
                   alt={currentStudent.name}
                 />
               </div>
@@ -344,7 +347,7 @@ export default function MarkAttendance() {
                     >
                       <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
                     </svg>
-                    <span>{currentStudent.class}</span>
+                    <span>{currentStudent.department || "N/A"}</span>
                   </div>
                 </div>
               </div>
@@ -421,8 +424,11 @@ export default function MarkAttendance() {
                     <div className={styles["summary-avatar"]}>
                       <img
                         src={
-                          students.find((s) => s.id === record.studentId)
-                            ?.profilePic
+                          studentData.find(
+                            (s) => (s._id || s.id) === record.studentId,
+                          )?.StudentImage
+                            ? `https://backend.gonakli.com/${studentData.find((s) => (s._id || s.id) === record.studentId)?.StudentImage}`
+                            : `https://ui-avatars.com/api/?name=${encodeURIComponent(record.name)}&size=100&background=667eea&color=fff&bold=true`
                         }
                         alt={record.name}
                       />
@@ -438,9 +444,7 @@ export default function MarkAttendance() {
                   </div>
                   <div className={styles["summary-actions"]}>
                     <span
-                      className={`${styles["status-badge"]} ${
-                        styles[record.status]
-                      }`}
+                      className={`${styles["status-badge"]} ${styles[record.status]}`}
                     >
                       {record.status === "present" ? (
                         <svg

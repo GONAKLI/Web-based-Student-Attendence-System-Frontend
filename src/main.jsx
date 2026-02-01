@@ -21,6 +21,7 @@ import TeacherProtectedRoute from "../components/teacher-components/TeacherProte
 import ViewStudents from "../components/admin-material/View_Students.jsx";
 import ViewSingleStudentDetail from "../components/admin-material/View_Single_Student_Data.jsx";
 import RemoveStudent from "../components/admin-material/Remove_Student.jsx";
+import AdminProtectedRoute from "../components/admin-material/AdminProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,23 +43,56 @@ const router = createBrowserRouter([
     path: "/admin/dashboard",
     element: <AdminDashboard />,
     children: [
-      { path: "add-teacher", element: <AddTeacherForm /> },
-      { path: "view-teacher", element: <ViewTeacher /> },
+      {
+        path: "add-teacher",
+        element: (
+          <AdminProtectedRoute>
+            <AddTeacherForm />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: "view-teacher",
+        element: (
+          <AdminProtectedRoute>
+            <ViewTeacher />
+          </AdminProtectedRoute>
+        ),
+      },
 
-      { path: "remove-teacher", element: <RemoveTeacher /> },
+      {
+        path: "remove-teacher",
+        element: (
+          <AdminProtectedRoute>
+            <RemoveTeacher />
+          </AdminProtectedRoute>
+        ),
+      },
     ],
   },
   {
     path: "/admin/dashboard/Remove-Student",
-    element: <RemoveStudent />,
+    element: (
+      <AdminProtectedRoute>
+        <RemoveStudent />
+      </AdminProtectedRoute>
+    ),
   },
   {
     path: "/admin/dashboard/view-students",
-    element: <ViewStudents />,
+    element: (
+      <AdminProtectedRoute>
+        <ViewStudents />
+      </AdminProtectedRoute>
+    ),
   },
   {
     path: "/admin/dashboard/view-student/:id",
-    element: <ViewSingleStudentDetail />,
+    element: (
+      <AdminProtectedRoute>
+        <ViewSingleStudentDetail />
+      </AdminProtectedRoute>
+    ),
   },
   {
     path: "/teacher",

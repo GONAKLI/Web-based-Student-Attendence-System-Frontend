@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoFileSubmodule } from "react-icons/go";
 import { MdEmail } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
@@ -6,11 +6,30 @@ import "../../css/adminsignin.css";
 import { Navigate, redirect, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 
+
+
+
 function Signin_admin() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [response, setResponse] = useState(null);
   const [Loading, setLoading] = useState(false);
+  
+  useEffect(()=>{
+     fetch("https://backend.gonakli.com/DirectAccessResources", {
+       credentials: "include",
+     }).then((res) => {
+       if (res.status === 200) {
+      return   navigate("/admin/dashboard");
+       }
+     });
+    
+    
+  }, []);
+ 
+  
+  
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

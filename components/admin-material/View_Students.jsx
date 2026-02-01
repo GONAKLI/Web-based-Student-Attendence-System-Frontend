@@ -26,7 +26,7 @@ export default function ViewStudents() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch students");
+        throw new Error("No Student Found");
       }
 
       const data = await response.json();

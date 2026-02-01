@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import "../../css/admindashboard.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function AdminDashboard() {
   const navigate = useNavigate();
+  let [AdminName, SetAdminName] = useState('');
 
   useEffect(() => {
-    fetch("https://backend.gonakli.com/admin/", {
-      credentials: "include",
-    }).then((res) => {
-      if (res.status === 401) {
-      return navigate("/admin");
-      }
-    });
+    fetch('https://backend.gonakli.com/admin/dashboard', {
+      credentials : 'include',
+    }).then((res)=> res.json()).then((data) => {
+      console.log(data.name);
+      
+      SetAdminName(data.name);
+    })
   }, []);
 
   const handleLogout = async () => {
@@ -32,7 +34,7 @@ function AdminDashboard() {
 
   return (
     <div className="admin-container">
-      <h1 className="admin-title">⚡ Admin Dashboard</h1>
+      <h1 className="admin-title">⚡ Admin Dashboard -&gt; {AdminName} </h1>
 
       {/* 👇 Fixed logout button */}
       <button className="logout-btn-fixed" onClick={handleLogout}>
