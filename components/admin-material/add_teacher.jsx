@@ -152,6 +152,7 @@ function AddTeacherForm() {
                 name="qualification"
                 value={formData.qualification}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={12}>
@@ -202,6 +203,7 @@ function AddTeacherForm() {
                 name="profilePic"
                 accept="image/*"
                 onChange={handleChange}
+                required
               />
               {formData.profilePic && (
                 <Avatar
