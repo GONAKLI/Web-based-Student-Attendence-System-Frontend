@@ -41,31 +41,31 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <AdminProtectedRoute>
+        <AdminDashboard />
+      </AdminProtectedRoute>
+    ),
     children: [
       {
         path: "add-teacher",
-        element: (
-          <AdminProtectedRoute>
-            <AddTeacherForm />
-          </AdminProtectedRoute>
-        ),
+        element: <AddTeacherForm />,
       },
       {
         path: "view-teacher",
         element: (
-          <AdminProtectedRoute>
+      
             <ViewTeacher />
-          </AdminProtectedRoute>
+      
         ),
       },
 
       {
         path: "remove-teacher",
         element: (
-          <AdminProtectedRoute>
+        
             <RemoveTeacher />
-          </AdminProtectedRoute>
+        
         ),
       },
     ],

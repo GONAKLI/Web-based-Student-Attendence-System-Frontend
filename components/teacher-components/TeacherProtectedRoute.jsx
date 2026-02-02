@@ -7,7 +7,7 @@ function TeacherProtectedRoute({ children }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        let res = await fetch("https://backend.gonakli.com/teacher/", {
+        let res = await fetch("http://localhost:5005/teacher/", {
           credentials: "include",
           method: "GET",
         });
