@@ -6,7 +6,7 @@ function ViewTeacher() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5005/admin/get-teachers", {
+    fetch("https://backend.gonakli.com/admin/get-teachers", {
       method: "GET",
       credentials: "include", 
     })
@@ -32,7 +32,7 @@ function ViewTeacher() {
         {teachers.map((teacher) => (
           <div key={teacher._id} className="teacher-card">
             <img
-              src={`http://localhost:5005/${teacher.profilePic}`}
+              src={`https://backend.gonakli.com/${teacher.profilePic}`}
               alt={teacher.name}
               className="teacher-img"
             />

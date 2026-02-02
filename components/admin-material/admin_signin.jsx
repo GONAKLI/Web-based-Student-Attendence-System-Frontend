@@ -16,7 +16,7 @@ function Signin_admin() {
   const [Loading, setLoading] = useState(false);
   
   useEffect(()=>{
-     fetch("http://localhost:5005/DirectAccessResources", {
+     fetch("https://backend.gonakli.com/DirectAccessResources", {
        credentials: "include",
      }).then((res) => {
        if (res.status === 200) {
@@ -47,7 +47,7 @@ function Signin_admin() {
     }
 
     try {
-      const res = await fetch("http://localhost:5005/admin_signin", {
+      const res = await fetch("https://backend.gonakli.com/admin_signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

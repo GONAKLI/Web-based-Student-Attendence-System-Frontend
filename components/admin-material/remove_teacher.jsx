@@ -6,7 +6,7 @@ function RemoveTeacher() {
   const [deleting, setDeleting] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5005/admin/get-teachers", {
+    fetch("https://backend.gonakli.com/admin/get-teachers", {
       method: "GET",
       credentials: "include",
     })
@@ -18,7 +18,7 @@ function RemoveTeacher() {
   const handleDelete = (id) => {
     setDeleting(id);
 
-    fetch(`http://localhost:5005/admin/delete-teacher/${id}`, {
+    fetch(`https://backend.gonakli.com/admin/delete-teacher/${id}`, {
       method: "DELETE",
       credentials: "include",
     })
@@ -51,7 +51,7 @@ function RemoveTeacher() {
               🪣
             </button>
             <img
-              src={`http://localhost:5005/${teacher.profilePic}`}
+              src={`https://backend.gonakli.com/${teacher.profilePic}`}
               alt={teacher.name}
               className="teacher-img"
             />

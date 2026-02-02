@@ -20,7 +20,7 @@ export default function ViewStudents() {
 
     try {
       const response = await fetch(
-        "http://localhost:5005/admin/dashboard/view-students", {
+        "https://backend.gonakli.com/admin/dashboard/view-students", {
           credentials: 'include',
         }
       );
@@ -180,7 +180,7 @@ export default function ViewStudents() {
                   <div className={styles.profilePicWrapper}>
                     <img
                       src={
-                        `http://localhost:5005/${student.StudentImage}` ||
+                        `https://backend.gonakli.com/${student.StudentImage}` ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&size=200&background=667eea&color=fff&bold=true`
                       }
                       alt={student.name}

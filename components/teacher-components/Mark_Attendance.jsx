@@ -18,7 +18,7 @@ export default function MarkAttendance() {
     const fetchStudentData = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5005/teacher/getStudents",
+          "https://backend.gonakli.com/teacher/getStudents",
           {
             credentials: "include",
           },
@@ -160,7 +160,7 @@ export default function MarkAttendance() {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5005/mark-attendance",
+        "https://backend.gonakli.com/mark-attendance",
         {
           method: "POST",
           headers: {
@@ -317,7 +317,7 @@ export default function MarkAttendance() {
                 <img
                   src={
                     currentStudent.StudentImage
-                      ? `http://localhost:5005/${currentStudent.StudentImage}`
+                      ? `https://backend.gonakli.com/${currentStudent.StudentImage}`
                       : `https://ui-avatars.com/api/?name=${encodeURIComponent(currentStudent.name)}&size=300&background=667eea&color=fff&bold=true`
                   }
                   alt={currentStudent.name}
@@ -427,7 +427,7 @@ export default function MarkAttendance() {
                           studentData.find(
                             (s) => (s._id || s.id) === record.studentId,
                           )?.StudentImage
-                            ? `http://localhost:5005/${studentData.find((s) => (s._id || s.id) === record.studentId)?.StudentImage}`
+                            ? `https://backend.gonakli.com/${studentData.find((s) => (s._id || s.id) === record.studentId)?.StudentImage}`
                             : `https://ui-avatars.com/api/?name=${encodeURIComponent(record.name)}&size=100&background=667eea&color=fff&bold=true`
                         }
                         alt={record.name}
