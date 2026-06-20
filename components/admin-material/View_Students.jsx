@@ -20,7 +20,7 @@ export default function ViewStudents() {
 
     try {
       const response = await fetch(
-        "https://backend.gonakli.com/admin/dashboard/view-students", {
+        "https://student.attendence.gonakli.com/admin/dashboard/view-students", {
           credentials: 'include',
         }
       );
@@ -149,7 +149,7 @@ export default function ViewStudents() {
                 clipRule="evenodd"
               />
             </svg>
-            <h3>Error Loading Students</h3>
+            {/* <h3>Error Loading Students</h3> */}
             <p>{error}</p>
             <button onClick={fetchStudents} className={styles.retryButton}>
               Try Again
@@ -180,7 +180,7 @@ export default function ViewStudents() {
                   <div className={styles.profilePicWrapper}>
                     <img
                       src={
-                        `https://backend.gonakli.com/${student.StudentImage}` ||
+                        `https://student.attendence.gonakli.com/${student.StudentImage}` ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&size=200&background=667eea&color=fff&bold=true`
                       }
                       alt={student.name}

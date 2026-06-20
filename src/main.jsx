@@ -22,6 +22,7 @@ import ViewStudents from "../components/admin-material/View_Students.jsx";
 import ViewSingleStudentDetail from "../components/admin-material/View_Single_Student_Data.jsx";
 import RemoveStudent from "../components/admin-material/Remove_Student.jsx";
 import AdminProtectedRoute from "../components/admin-material/AdminProtectedRoute.jsx";
+import UnderConstruction from "../components/underConstruction.jsx";
 
 const router = createBrowserRouter([
   {
@@ -121,7 +122,12 @@ const router = createBrowserRouter([
         <AddStudent />
       </TeacherProtectedRoute>
     ),
-  },
+  },{
+  path: "*",
+  element: <UnderConstruction />
+  }
+  
+
 ]);
 
 createRoot(document.getElementById("root")).render(

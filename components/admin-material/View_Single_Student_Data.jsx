@@ -20,7 +20,7 @@ export default function ViewSingleStudentDetail() {
 
     try {
       const response = await fetch(
-        `https://backend.gonakli.com/admin/dashboard/view-student/${id}`, {
+        `https://student.attendence.gonakli.com/admin/dashboard/view-student/${id}`, {
             credentials : 'include',
         }
       );
@@ -159,7 +159,7 @@ export default function ViewSingleStudentDetail() {
             <div className={styles.profileImageWrapper}>
               <img
                 src={
-                  `https://backend.gonakli.com/${student.StudentImage}` ||
+                  `https://student.attendence.gonakli.com/${student.StudentImage}` ||
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&size=300&background=667eea&color=fff&bold=true`
                 }
                 alt={student.name}

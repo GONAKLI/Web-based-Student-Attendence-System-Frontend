@@ -16,7 +16,7 @@ export default function TeacherDashboard() {
     const fetchTeacherData = async () => {
       try {
         const res = await fetch(
-          "https://backend.gonakli.com/teacher/TeacherDetails",
+          "https://student.attendence.gonakli.com/teacher/TeacherDetails",
           {
             credentials: "include",
           },
@@ -40,7 +40,7 @@ export default function TeacherDashboard() {
 
   const handleLogout = async () => {
     try {
-      let res = await fetch("https://backend.gonakli.com/teacher/logout", {
+      let res = await fetch("https://student.attendence.gonakli.com/teacher/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -183,7 +183,7 @@ export default function TeacherDashboard() {
                     style={{ height: "51px", borderRadius: "50%" }}
                     src={
                       teacherData.profilePic
-                        ? `https://backend.gonakli.com/${teacherData.profilePic}`
+                        ? `https://student.attendence.gonakli.com/${teacherData.profilePic}`
                         : "https://via.placeholder.com/51"
                     }
                     alt="Profile"

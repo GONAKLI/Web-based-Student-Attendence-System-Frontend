@@ -3,9 +3,9 @@ import '../css/selection.css'
 
 function Selection() {
   const student_img =
-    "https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Student-3-1024.png";
+    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F054%2F720%2F352%2Fnon_2x%2Fstudent-3d-icon-for-education-projects-on-transparent-background-png.png&f=1&nofb=1&ipt=1d0319d7469011641ababfe457e2a5a0c679782b4cdbf92f27a5f3fe907dfbdf";
   const teacher_img =
-    "https://tse3.mm.bing.net/th/id/OIP.VQO3GusvipKi_6rnCRUrcwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3";
+    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F026%2F837%2F227%2Fnon_2x%2Fteacher-icon-symbol-image-illustration-of-the-training-business-school-classroom-icon-design-image-vector.jpg&f=1&nofb=1&ipt=9181e9944269321750d4b7bdc3eccf0e938a649f880c13a8ff0fa2ff66498fd7"
   const admin_img =
     "https://static.vecteezy.com/system/resources/previews/015/145/649/original/man-with-the-inscription-admin-icon-color-outline-vector.jpg";
 

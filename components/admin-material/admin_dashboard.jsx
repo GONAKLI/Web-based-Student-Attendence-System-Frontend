@@ -8,7 +8,7 @@ function AdminDashboard() {
   let [AdminName, SetAdminName] = useState('');
 
   useEffect(() => {
-    fetch('https://backend.gonakli.com/admin/dashboard', {
+    fetch('https://student.attendence.gonakli.com/admin/dashboard', {
       credentials : 'include',
     }).then((res)=> res.json()).then((data) => {
       console.log(data.name);
@@ -19,7 +19,7 @@ function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch("https://backend.gonakli.com/admin/logout", {
+      const res = await fetch("https://student.attendence.gonakli.com/admin/logout", {
         method: "POST",
         credentials: "include",
       });

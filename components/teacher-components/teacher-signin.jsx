@@ -12,7 +12,7 @@ export default function TeacherSignIn() {
   const [isLoading, setIsLoading] = useState(false);
   
    useEffect(()=>{
-       fetch("https://backend.gonakli.com/DirectAccessResources", {
+       fetch("https://student.attendence.gonakli.com/DirectAccessResources", {
          credentials: "include",
        }).then((res) => {
          if (res.status === 200) {
@@ -42,7 +42,7 @@ export default function TeacherSignIn() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://backend.gonakli.com/teacher-login", {
+      const response = await fetch("https://student.attendence.gonakli.com/teacher-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

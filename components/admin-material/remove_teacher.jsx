@@ -6,7 +6,7 @@ function RemoveTeacher() {
   const [deleting, setDeleting] = useState(null);
 
   useEffect(() => {
-    fetch("https://backend.gonakli.com/admin/get-teachers", {
+    fetch("https://student.attendence.gonakli.com/admin/get-teachers", {
       method: "GET",
       credentials: "include",
     })
@@ -18,7 +18,7 @@ function RemoveTeacher() {
   const handleDelete = (id) => {
     setDeleting(id);
 
-    fetch(`https://backend.gonakli.com/admin/delete-teacher/${id}`, {
+    fetch(`https://student.attendence.gonakli.com/admin/delete-teacher/${id}`, {
       method: "DELETE",
       credentials: "include",
     })
@@ -38,7 +38,8 @@ function RemoveTeacher() {
   return (
     <div className="teacher-container">
       <h2 className="teacher-title">🗑️ Remove Teachers</h2>
-      <div className="teacher-grid">
+
+      {teachers.length > 0 ? (<div className="teacher-grid">
         {teachers.map((teacher) => (
           <div
             key={teacher._id}
@@ -51,7 +52,7 @@ function RemoveTeacher() {
               🪣
             </button>
             <img
-              src={`https://backend.gonakli.com/${teacher.profilePic}`}
+              src={`https://student.attendence.gonakli.com/${teacher.profilePic}`}
               alt={teacher.name}
               className="teacher-img"
             />
@@ -75,6 +76,9 @@ function RemoveTeacher() {
           </div>
         ))}
       </div>
+
+      ) : (<h3> No Teacher exist at this moment in your institute. <br /> Try, to add a new Teacher </h3>)}
+      
     </div>
   );
 }

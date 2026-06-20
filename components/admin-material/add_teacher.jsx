@@ -52,7 +52,7 @@ function AddTeacherForm() {
     data.append("gender", formData.gender);
     data.append("profilePic", formData.profilePic); // file field
 
-    fetch("https://backend.gonakli.com/admin/add-teacher", {
+    fetch("https://student.attendence.gonakli.com/admin/add-teacher", {
       method: "POST",
       body: data, // no JSON.stringify
       credentials: "include",

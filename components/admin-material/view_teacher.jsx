@@ -6,7 +6,7 @@ function ViewTeacher() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://backend.gonakli.com/admin/get-teachers", {
+    fetch("https://student.attendence.gonakli.com/admin/get-teachers", {
       method: "GET",
       credentials: "include", 
     })
@@ -28,11 +28,11 @@ function ViewTeacher() {
   return (
     <div className="teacher-container">
       <h2 className="teacher-title">👩‍🏫 Teachers List</h2>
-      <div className="teacher-grid">
+      {teachers.length > 0 ? (  <div className="teacher-grid">
         {teachers.map((teacher) => (
           <div key={teacher._id} className="teacher-card">
             <img
-              src={`https://backend.gonakli.com/${teacher.profilePic}`}
+              src={`https://student.attendence.gonakli.com/${teacher.profilePic}`}
               alt={teacher.name}
               className="teacher-img"
             />
@@ -57,7 +57,8 @@ function ViewTeacher() {
             </div>
           </div>
         ))}
-      </div>
+      </div>) : (<h3> No Teacher Exist at this Moment. <br /> Try again after adding Some Teachers </h3>)}
+    
     </div>
   );
 }

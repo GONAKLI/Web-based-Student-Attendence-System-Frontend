@@ -33,7 +33,7 @@ function Signup_admin({ setType }) {
     }
 
     try {
-      const res = await fetch("https://backend.gonakli.com/admin_signup", {
+      const res = await fetch("https://student.attendence.gonakli.com/admin_signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

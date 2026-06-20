@@ -7,7 +7,7 @@ function AdminProtectedRoute({ children }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        let res = await fetch("https://backend.gonakli.com/admin/", {
+        let res = await fetch("https://student.attendence.gonakli.com/admin/", {
           credentials: "include",
           method: "GET",
         });

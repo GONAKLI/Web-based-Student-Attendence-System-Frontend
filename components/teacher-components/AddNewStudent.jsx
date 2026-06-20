@@ -91,7 +91,7 @@ export default function AddStudent() {
       submitData.append("department", formData.department);
 
       const response = await fetch(
-        "https://backend.gonakli.com/teacher/Add-New-Student",
+        "https://student.attendence.gonakli.com/teacher/Add-New-Student",
         {
           method: "POST",
           body: submitData,

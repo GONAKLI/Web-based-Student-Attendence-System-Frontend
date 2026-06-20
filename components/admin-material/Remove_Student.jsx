@@ -21,14 +21,14 @@ export default function RemoveStudent() {
 
     try {
       const response = await fetch(
-        "https://backend.gonakli.com/admin/dashboard/view-students",
+        "https://student.attendence.gonakli.com/admin/dashboard/view-students",
         {
           credentials: "include",
         },
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch students");
+        throw new Error("No student exist at this moment");
       }
 
       const data = await response.json();
@@ -54,7 +54,7 @@ export default function RemoveStudent() {
 
     try {
       const response = await fetch(
-        `https://backend.gonakli.com/admin/delete-student/${studentId}`,
+        `https://student.attendence.gonakli.com/admin/delete-student/${studentId}`,
         {
           method: "DELETE",
           headers: {
@@ -192,7 +192,7 @@ export default function RemoveStudent() {
                 clipRule="evenodd"
               />
             </svg>
-            <h3>Error Loading Students</h3>
+            {/* <h3>Error Loading Students</h3> */}
             <p>{error}</p>
             <button onClick={fetchStudents} className={styles.retryButton}>
               Try Again
@@ -250,7 +250,7 @@ export default function RemoveStudent() {
                   <div className={styles.profilePicWrapper}>
                     <img
                       src={
-                        `https://backend.gonakli.com/${student.StudentImage}` ||
+                        `https://student.attendence.gonakli.com/${student.StudentImage}` ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(
                           student.name,
                         )}&size=200&background=667eea&color=fff&bold=true`
